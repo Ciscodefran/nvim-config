@@ -33,22 +33,29 @@ return {
       local lspconfig = require("lspconfig")
 
       lspconfig.lua_ls.setup({})
-      lspconfig.volar.setup({
-        filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-        init_options = {
-          vue = {
-            hybridMode = false,
-          },
-        },
-      })
+      -- lspconfig.volar.setup({
+      --   filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+      --   init_options = {
+      --     vue = {
+      --       hybridMode = false,
+      --     },
+      --   },
+      -- })
       lspconfig.html.setup({})
       lspconfig.eslint.setup({
         on_attach = function(client, bufnr)
-          -- 포맷 기능이 있는 경우에만 자동 포맷 설정
-          if client.server_capabilities.documentFormattingProvider then
+          if client.server_capabilities.codeActionProvider then
             vim.api.nvim_create_autocmd("BufWritePre", {
               buffer = bufnr,
-              command = "lua vim.lsp.buf.format({ async = false })",
+              callback = function()
+                vim.lsp.buf.code_action({
+                  context = {
+                    only = { "source.fixAll.eslint" },
+                    diagnostics = {},
+                  },
+                  apply = true,
+                })
+              end,
             })
           end
         end,
