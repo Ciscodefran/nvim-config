@@ -42,9 +42,10 @@ return {
       --   },
       -- })
       lspconfig.html.setup({})
+
       lspconfig.eslint.setup({
         on_attach = function(client, bufnr)
-          if client.server_capabilities.codeActionProvider then
+          if client.server_capabilities and client.server_capabilities.codeActionProvider then
             vim.api.nvim_create_autocmd("BufWritePre", {
               buffer = bufnr,
               callback = function()
@@ -59,6 +60,18 @@ return {
             })
           end
         end,
+        root_dir = lspconfig.util.root_pattern(
+          "eslint.config.js",
+          "eslint.config.mjs",
+          ".eslintrc.js",
+          ".eslintrc.cjs",
+          ".eslintrc.json",
+          "package.json",
+          ".git"
+        ),
+        settings = {
+          workingDirectory = { mode = "location" },
+        },
       })
 
       lspconfig.ltex.setup({
