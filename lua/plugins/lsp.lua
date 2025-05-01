@@ -74,6 +74,11 @@ return {
         },
       })
 
+      lspconfig.tsserver.setup({
+        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+        root_dir = lspconfig.util.root_pattern("tsconfig.json", "package.json", ".git"),
+      })
+
       lspconfig.ltex.setup({
         settings = {
           ltex = {
