@@ -45,20 +45,15 @@ return {
 
       lspconfig.eslint.setup({
         on_attach = function(client, bufnr)
-          if client.server_capabilities and client.server_capabilities.codeActionProvider then
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              buffer = bufnr,
-              callback = function()
-                vim.lsp.buf.code_action({
-                  context = {
-                    only = { "source.fixAll.eslint" },
-                    diagnostics = {},
-                  },
-                  apply = true,
-                })
-              end,
-            })
-          end
+          -- ✨ formatting capability 강제 활성화
+          client.server_capabilities.documentFormattingProvider = true
+
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            callback = function()
+              vim.lsp.buf.format({ async = false })
+            end,
+          })
         end,
         root_dir = lspconfig.util.root_pattern(
           "eslint.config.js",
