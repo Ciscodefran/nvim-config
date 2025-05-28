@@ -1,3 +1,4 @@
+-- vim.lsp.set_log_level("debug")
 if vim.g.vscode then
   -- VSCode extension
 else
