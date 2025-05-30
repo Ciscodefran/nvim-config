@@ -27,4 +27,11 @@ else
       end
     end,
   })
+
+  vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = { "*.http", "*.rest" },
+    callback = function()
+      vim.bo.filetype = "http"
+    end,
+  })
 end
