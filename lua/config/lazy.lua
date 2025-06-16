@@ -30,6 +30,7 @@ require("lazy").setup({
     -- ────────────────────────────────────────────────────────────────────
     {
       "hrsh7th/nvim-cmp",
+      enabled = true,
       event = "InsertEnter",
       dependencies = {
         "hrsh7th/cmp-nvim-lsp",
@@ -76,6 +77,14 @@ require("lazy").setup({
               cmp.TriggerEvent.TextChanged,
             },
           },
+        })
+
+        cmp.setup.filetype("sql", {
+          sources = cmp.config.sources({
+            { name = "vim-dadbod-completion" },
+          }, {
+            { name = "buffer" },
+          }),
         })
       end,
     },
