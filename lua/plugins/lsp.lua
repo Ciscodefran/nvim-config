@@ -2,16 +2,16 @@ local keyMapper = require("utils.keyMapper").mapKey
 
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     config = function()
       require("mason").setup()
     end,
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     dependencies = {
       "neovim/nvim-lspconfig",
-      "williamboman/mason.nvim",
+      "mason-org/mason.nvim",
     },
     config = function()
       require("mason-lspconfig").setup({
@@ -20,7 +20,6 @@ return {
           "ts_ls",
           "html",
           "rust_analyzer",
-          "volar",
           "eslint",
           "ltex",
         },
