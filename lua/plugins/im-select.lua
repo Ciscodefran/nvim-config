@@ -1,6 +1,7 @@
 return {
   "keaising/im-select.nvim",
   event = { "VeryLazy" },
+  enabled = vim.fn.has("android") == 0,
   config = function()
     require("im_select").setup({
       default_im_select = "com.apple.keylayout.ABC", -- Normal/Visual 모드 = 영어
