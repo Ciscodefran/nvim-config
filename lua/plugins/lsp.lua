@@ -22,6 +22,8 @@ return {
           "rust_analyzer",
           "eslint",
           "ltex",
+          "basedpyright",
+          "ruff",
         },
       })
     end,
@@ -41,7 +43,19 @@ return {
       --   },
       -- })
       lspconfig.html.setup({})
+      lspconfig.pyright.setup({})
+      lspconfig.ruff.setup({
+        on_attach = function(client, bufnr)
+          client.server_capabilities.documentFormattingProvider = true
 
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            callback = function()
+              vim.lsp.buf.format({ bufnr = bufnr, async = false })
+            end,
+          })
+        end,
+      })
       lspconfig.eslint.setup({
         on_attach = function(client, bufnr)
           -- ✨ formatting capability 강제 활성화
