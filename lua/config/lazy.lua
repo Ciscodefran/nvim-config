@@ -12,22 +12,12 @@ end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 require("lazy").setup({
-  -- ────────────────────────────────────────────────────────────────────
-  -- 1) 플러그인 스펙: 반드시 여기 안에 모든 플러그인 정의를 넣어야 합니다.
-  -- ────────────────────────────────────────────────────────────────────
   spec = {
-    -- LazyVim 기본 컬렉션
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- TypeScript, JSON, ESLint 등 extras
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.linting.eslint" },
-    -- 사용자 플러그인(plugins/*.lua)
     { import = "plugins" },
-
-    -- ────────────────────────────────────────────────────────────────────
-    -- 2) nvim-cmp: JSX/TSX 속성 context에서도 LSP 제안을 뜨게 하기
-    -- ────────────────────────────────────────────────────────────────────
     {
       "hrsh7th/nvim-cmp",
       enabled = true,
@@ -59,7 +49,6 @@ require("lazy").setup({
             { name = "path" },
           }),
           completion = {
-            -- InsertEnter, TextChanged 시 자동 팝업
             autocomplete = {
               cmp.TriggerEvent.InsertEnter,
               cmp.TriggerEvent.TextChanged,
@@ -69,7 +58,6 @@ require("lazy").setup({
           },
         })
 
-        -- TSX(typescriptreact)에서도 같은 동작 보장
         cmp.setup.filetype("typescriptreact", {
           completion = {
             autocomplete = {
@@ -90,15 +78,12 @@ require("lazy").setup({
     },
   },
 
-  -- ────────────────────────────────────────────────────────────────────
-  -- 3) 기타 LazyVim 옵션
-  -- ────────────────────────────────────────────────────────────────────
   defaults = {
     lazy = false,
     version = false, -- 항상 최신 커밋
   },
   install = {
-    colorscheme = { "tokyonight", "habamax" },
+    colorscheme = { "habamax" },
   },
   checker = {
     enabled = true, -- 플러그인 자동 업데이트 체크

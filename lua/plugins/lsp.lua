@@ -17,13 +17,11 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
-          "ts_ls",
-          "html",
-          "rust_analyzer",
-          "eslint",
-          "ltex",
+          "clangd",
           "basedpyright",
-          "ruff",
+          "vtsls",
+          "ruby_lsp",
+          -- "rust_analyzer",
         },
       })
     end,
@@ -34,70 +32,7 @@ return {
       local lspconfig = require("lspconfig")
 
       lspconfig.lua_ls.setup({})
-      -- lspconfig.volar.setup({
-      --   filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-      --   init_options = {
-      --     vue = {
-      --       hybridMode = false,
-      --     },
-      --   },
-      -- })
-      lspconfig.html.setup({})
       lspconfig.pyright.setup({})
-      lspconfig.ruff.setup({
-        on_attach = function(client, bufnr)
-          client.server_capabilities.documentFormattingProvider = true
-
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = bufnr,
-            callback = function()
-              vim.lsp.buf.format({ bufnr = bufnr, async = false })
-            end,
-          })
-        end,
-      })
-      lspconfig.eslint.setup({
-        on_attach = function(client, bufnr)
-          -- ✨ formatting capability 강제 활성화
-          client.server_capabilities.documentFormattingProvider = true
-
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = bufnr,
-            callback = function()
-              vim.lsp.buf.format({ async = false })
-            end,
-          })
-        end,
-        root_dir = lspconfig.util.root_pattern(
-          "eslint.config.js",
-          "eslint.config.mjs",
-          ".eslintrc.js",
-          ".eslintrc.cjs",
-          ".eslintrc.json",
-          "package.json",
-          ".git"
-        ),
-        settings = {
-          workingDirectory = { mode = "location" },
-        },
-      })
-
-      lspconfig.tsserver.setup({
-        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-        root_dir = lspconfig.util.root_pattern("tsconfig.json", "package.json", ".git"),
-      })
-
-      lspconfig.ltex.setup({
-        settings = {
-          ltex = {
-            language = "ko",
-            dictionary = {
-              ["ko"] = { "기본사전", "사용자 정의 단어" },
-            },
-          },
-        },
-      })
-
       require("lspconfig").clangd.setup({
         cmd = {
           "clangd",

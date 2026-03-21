@@ -10,7 +10,6 @@ Personal Neovim configuration based on [LazyVim](https://github.com/LazyVim/Lazy
 - **Lualine** - Status line
 - **Bufferline** - Tab/buffer line
 - **Neo-tree** - File explorer
-- **Noice** - UI improvements for cmdline, popupmenu and messages
 - **Which-key** - Keybinding hints
 
 ### LSP & Completion
@@ -32,18 +31,13 @@ Personal Neovim configuration based on [LazyVim](https://github.com/LazyVim/Lazy
 - **Gitsigns** - Git integration
 - **Flash** - Enhanced navigation
 - **Trouble** - Diagnostics panel
-- **Todo-comments** - TODO highlighting
 - **Conform** - Code formatting
 - **nvim-lint** - Linting
 
 ### Language Support
-- **Rustacean** - Enhanced Rust support
-- **Crates** - Rust crate management
-- **Markdown-preview** - Live markdown preview
 - **ts-comments** - TypeScript comment handling
 
 ### Utilities
-- **im-select** - Input method switching (macOS)
 - **Persistence** - Session management
 - **Mini.ai** - Text objects
 - **Mini.pairs** - Auto pairs
