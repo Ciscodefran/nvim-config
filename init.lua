@@ -35,3 +35,23 @@ else
     end,
   })
 end
+
+if vim.fn.executable('termux-clipboard-set') == 1 then
+    vim.opt.clipboard = "unnamedplus"
+    
+    vim.g.clipboard = {
+        name = 'termux',
+        copy = {
+            ['+'] = 'termux-clipboard-set',
+            ['*'] = 'termux-clipboard-set',
+        },
+        paste = {
+            ['+'] = 'termux-clipboard-get',
+            ['*'] = 'termux-clipboard-get',
+        },
+        cache_enabled = 0,
+    }
+else
+    vim.opt.clipboard = "unnamedplus"
+end
+
