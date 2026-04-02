@@ -21,6 +21,7 @@ return {
           "basedpyright",
           "vtsls",
           "ruby_lsp",
+          "solargraph",
           -- "rust_analyzer",
         },
       })
@@ -33,10 +34,19 @@ return {
 
       lspconfig.lua_ls.setup({})
       lspconfig.basedpyright.setup({})
+      -- Gemfile이 있는 프로젝트 → ruby_lsp
       lspconfig.ruby_lsp.setup({
+        root_dir = lspconfig.util.root_pattern("Gemfile", ".git"),
+        single_file_support = false,
+      })
+      -- 단일 .rb 파일 (Gemfile 없음) → solargraph
+      lspconfig.solargraph.setup({
         root_dir = function(fname)
-          return lspconfig.util.root_pattern("Gemfile", ".git")(fname)
-            or vim.fn.fnamemodify(fname, ":p:h")
+          local project_root = lspconfig.util.root_pattern("Gemfile", ".git")(fname)
+          if project_root then
+            return nil
+          end
+          return vim.fn.fnamemodify(fname, ":p:h")
         end,
         single_file_support = true,
       })
