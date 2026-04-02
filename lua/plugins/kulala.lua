@@ -58,16 +58,15 @@ return {
         },
       },
       -- 디버그 레벨 (0~4)
-      debug = 3,
+      debug = 0,
 
-      global_keymaps = false, -- 전역 매핑은 끄고
-      kulala_keymaps = true, -- 로컬 매핑(파일타입별)을 켭니다
-      kulala_keymaps_prefix = "", -- 접두사 없이 바로 CR 매핑을 사용
-
-      -- UI 내부 키맵 설정
+      global_keymaps = false,
       kulala_keymaps = true,
       kulala_keymaps_prefix = "",
-      -- ~/.config/nvim/lua/plugins/kulala.lua (혹은 아무 lua 파일)
+    },
+    config = function(_, opts)
+      require("kulala").setup(opts)
+
       vim.api.nvim_create_autocmd("FileType", {
         pattern = { "http", "rest" },
         callback = function(evt)
@@ -88,8 +87,8 @@ return {
             require("kulala").scratchpad()
           end)
         end,
-      }),
-    },
+      })
+    end,
   },
   {
     "stevearc/conform.nvim",

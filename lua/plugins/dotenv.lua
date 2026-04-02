@@ -1,8 +1,7 @@
 -- lua/plugins/dotenv.lua
 return {
   "ellisonleao/dotenv.nvim",
-  lazy = false, -- 부팅 즉시 로드
-  priority = 1000, -- 가장 먼저
+  event = "VeryLazy",
   config = function()
     require("dotenv").setup({
       enable_on_load = true,

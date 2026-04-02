@@ -32,7 +32,14 @@ return {
       local lspconfig = require("lspconfig")
 
       lspconfig.lua_ls.setup({})
-      lspconfig.pyright.setup({})
+      lspconfig.basedpyright.setup({})
+      lspconfig.ruby_lsp.setup({
+        root_dir = function(fname)
+          return lspconfig.util.root_pattern("Gemfile", ".git")(fname)
+            or vim.fn.fnamemodify(fname, ":p:h")
+        end,
+        single_file_support = true,
+      })
       require("lspconfig").clangd.setup({
         cmd = {
           "clangd",
@@ -60,20 +67,6 @@ return {
       keyMapper("K", vim.lsp.buf.hover)
       keyMapper("gd", vim.lsp.buf.definition)
       keyMapper("<leader>ca", vim.lsp.buf.code_action)
-
-      vim.lsp.handlers["textDocument/hover"] = function(_, result, ctx, config)
-        config = config or {}
-        config.focus_id = ctx.method
-        if not (result and result.contents) then
-          return
-        end
-        local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
-        markdown_lines = vim.lsp.util.trim_empty_lines(markdown_lines)
-        if vim.tbl_isempty(markdown_lines) then
-          return
-        end
-        return vim.lsp.util.open_floating_preview(markdown_lines, "markdown", config)
-      end
     end,
   },
   {
