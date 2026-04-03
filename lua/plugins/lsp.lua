@@ -36,14 +36,13 @@ return {
       lspconfig.basedpyright.setup({})
       -- Gemfile이 있는 프로젝트 → ruby_lsp
       lspconfig.ruby_lsp.setup({
-        root_dir = lspconfig.util.root_pattern("Gemfile", ".git"),
+        root_dir = lspconfig.util.root_pattern("Gemfile"),
         single_file_support = false,
       })
       -- 단일 .rb 파일 (Gemfile 없음) → solargraph
       lspconfig.solargraph.setup({
         root_dir = function(fname)
-          local project_root = lspconfig.util.root_pattern("Gemfile", ".git")(fname)
-          if project_root then
+          if lspconfig.util.root_pattern("Gemfile")(fname) then
             return nil
           end
           return vim.fn.fnamemodify(fname, ":p:h")
