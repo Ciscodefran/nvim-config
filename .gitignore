@@ -8,3 +8,4 @@ foo.*
 data
 .env
 .claude
+lazy-lock.json
