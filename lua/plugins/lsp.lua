@@ -34,20 +34,18 @@ return {
 
       lspconfig.lua_ls.setup({})
       lspconfig.basedpyright.setup({})
-      -- Gemfile이 있는 프로젝트 → ruby_lsp
-      lspconfig.ruby_lsp.setup({
-        root_dir = lspconfig.util.root_pattern("Gemfile"),
-        single_file_support = false,
-      })
-      -- 단일 .rb 파일 (Gemfile 없음) → solargraph
-      lspconfig.solargraph.setup({
-        root_dir = function(fname)
-          if lspconfig.util.root_pattern("Gemfile")(fname) then
-            return nil
-          end
-          return vim.fn.fnamemodify(fname, ":p:h")
+      -- ruby_lsp: Gemfile 프로젝트에서만. 기본 root_markers에 .git이 있어 Rails 외 리포지토리에서도
+      -- 붙을 수 있으므로 Gemfile만으로 제한.
+      vim.lsp.config("ruby_lsp", { root_markers = { "Gemfile" } })
+      -- solargraph: Gemfile 없는 단일 .rb 파일에서만. 기본 root_markers={Gemfile,.git}이 Rails에서도
+      -- 매칭되어 ruby_lsp와 중복되므로 root_dir 콜백으로 명시 차단.
+      vim.lsp.config("solargraph", {
+        root_dir = function(bufnr, on_dir)
+          local fname = vim.api.nvim_buf_get_name(bufnr)
+          if fname == "" then return end
+          if vim.fs.root(fname, { "Gemfile" }) then return end
+          on_dir(vim.fs.dirname(fname))
         end,
-        single_file_support = true,
       })
       require("lspconfig").clangd.setup({
         cmd = {
